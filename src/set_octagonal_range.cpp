@@ -24,7 +24,7 @@ class Ranging
         float rememb_rate;
         float alert_range;
         int j ;
-        float alert_range_octagnal[BEAM_NUM]={2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0};
+        float alert_range_octagnal[BEAM_NUM]={0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2};
         int half_num_point_for_a_beam;
 		//private function
 		void scan_sub_Callback(const sensor_msgs::LaserScan::ConstPtr& msg);
