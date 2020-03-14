@@ -207,10 +207,13 @@ include_directories(
 # catkin_add_nosetests(test)
 
 add_executable(sub_lidarmsg src/sub_lidarmsg.cpp)
+add_dependencies(sub_lidarmsg lidar_2020_gencpp)
 target_link_libraries(sub_lidarmsg ${catkin_LIBRARIES})
 
 add_executable(simple_octagonal_ranging src/simple_octagonal_ranging.cpp)
+add_dependencies(simple_octagonal_ranging lidar_2020_gencpp)
 target_link_libraries(simple_octagonal_ranging ${catkin_LIBRARIES})
 
 add_executable(set_octagonal_range src/set_octagonal_range.cpp)
+add_dependencies(set_octagonal_range lidar_2020_gencpp)
 target_link_libraries(set_octagonal_range ${catkin_LIBRARIES})
