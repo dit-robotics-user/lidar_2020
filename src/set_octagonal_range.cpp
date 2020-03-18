@@ -147,7 +147,7 @@ int main(int argc, char **argv)
     float back_right_;
     float right_;      
     float front_right_;
-    Ranging A ;
+    
     
 
     ros::param::param<float>("~alert_range"  , alert_range_ , 0.3);
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 
     Ranging ranging(alert_range_,forget_rate_,num_point);
     for(int j=0 ; j<BEAM_NUM ; j++){
-        A.get_range(alert_range_octagnal_[j],j);
+        ranging.get_range(alert_range_octagnal_[j],j);
     }
     while(ros::ok){
         ros::spinOnce();
