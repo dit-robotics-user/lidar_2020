@@ -1,5 +1,5 @@
 <launch>
-    <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+    <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="log">
         <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
         <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
         <!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
@@ -8,7 +8,7 @@
         <param name="angle_compensate"    type="bool"   value="true"/>
     </node>
 
-    <node pkg="lidar_2020" type="set_octagonal_range" name="set_octagonal_range" output="screen">
+    <node pkg="lidar_2020" type="set_octagonal_range" name="set_octagonal_range" output="log">
         <param name="alert_range" type="double" value="0.3"/>
         <param name="forget_rate" type="double" value="0.9"/>
         <param name="num_point" type="double" value="40"/>
@@ -22,7 +22,9 @@
         <param name="right_range" type="double" value="0.3"/>
         <param name="front_right_range" type="double" value="0.3"/>
     </node>
-
-        <node pkg="lidar_2020" type="sub_lidarmsg" name="sub_lidarmsg" output="screen">
+    <node pkg="lidar_2020" type="sub_lidarmsg" name="sub_lidarmsg" output="log">
     </node>
+  
+
+
 </launch>

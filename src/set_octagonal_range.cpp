@@ -24,7 +24,7 @@ class Ranging
         float rememb_rate;
         float alert_range;
         int j ;
-        float alert_range_octagnal[BEAM_NUM]={0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2};
+        float alert_range_octagnal[BEAM_NUM]={0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3};
         int half_num_point_for_a_beam;
 		//private function
 		void scan_sub_Callback(const sensor_msgs::LaserScan::ConstPtr& msg);
@@ -112,13 +112,13 @@ void Ranging::scan_sub_Callback(const sensor_msgs::LaserScan::ConstPtr& msg){
 
 
     for(int beam_i=1;beam_i<BEAM_NUM;beam_i++){
-        range_memory[beam_i] = rememb_rate*range_memory[beam_i] + forget_rate*average_ranging(msg, beam_i*45 - half_num_point_for_a_beam,\
-                                                                                                beam_i*45 + half_num_point_for_a_beam);
+        range_memory[beam_i] = rememb_rate*range_memory[beam_i] + forget_rate*average_ranging(msg, beam_i*45 - half_num_point_for_a_beam,beam_i*45 + half_num_point_for_a_beam);
     }
     
     lidar_2020::alert_range ran_ale;
     ran_ale.header = msg->header;
     ran_ale.num = BEAM_NUM;
+    ran_ale.alert = {0};
     for(int i=0;i<BEAM_NUM;i++){
         ran_ale.ranging_value.push_back(range_memory[i]);
         if(range_memory[i]<alert_range_octagnal[i])
@@ -128,11 +128,14 @@ void Ranging::scan_sub_Callback(const sensor_msgs::LaserScan::ConstPtr& msg){
     }
     
     ranging_pub.publish(ran_ale);
+    
 }
 
 int main(int argc, char **argv)
 {
-    ros::init(argc,argv, "simple_octagonal_ranging");
+    ros::init(argc,argv, "set_octagonal_range");
+    
+    
 
     float alert_range_;
     float forget_rate_;
@@ -152,7 +155,7 @@ int main(int argc, char **argv)
 
     ros::param::param<float>("~alert_range"  , alert_range_ , 0.3);
     ros::param::param<float>("~forget_rate"  , forget_rate_ , 0.9);
-    ros::param::param<int>("~num_point"  , num_point , 40);
+    ros::param::param<int>("~num_point"  , num_point , 40 );
 
     ros::param::param<float>("~front_range",front_,0.3);
     ros::param::param<float>("~front_left_range",front_left_,0.3);
