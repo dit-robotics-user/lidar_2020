@@ -73,16 +73,6 @@ float Ranging::average_ranging(const sensor_msgs::LaserScan::ConstPtr& msg, int 
 }
 
 void Ranging::scan_sub_Callback(const sensor_msgs::LaserScan::ConstPtr& msg){
-
-    ROS_INFO("alert_range_octagnal[0]=%f",alert_range_octagnal[0]);
-    ROS_INFO("alert_range_octagnal[1]=%f",alert_range_octagnal[1]);
-    ROS_INFO("alert_range_octagnal[2]=%f",alert_range_octagnal[2]);
-    ROS_INFO("alert_range_octagnal[3]=%f",alert_range_octagnal[3]);
-    ROS_INFO("alert_range_octagnal[4]=%f",alert_range_octagnal[4]);
-    ROS_INFO("alert_range_octagnal[5]=%f",alert_range_octagnal[5]);
-    ROS_INFO("alert_range_octagnal[6]=%f",alert_range_octagnal[6]);
-    ROS_INFO("alert_range_octagnal[7]=%f",alert_range_octagnal[7]);
-
     //-180 degree
     // 0~20, 340~360
     // memory_index 0
@@ -114,11 +104,18 @@ void Ranging::scan_sub_Callback(const sensor_msgs::LaserScan::ConstPtr& msg){
     for(int beam_i=1;beam_i<BEAM_NUM;beam_i++){
         range_memory[beam_i] = rememb_rate*range_memory[beam_i] + forget_rate*average_ranging(msg, beam_i*45 - half_num_point_for_a_beam,beam_i*45 + half_num_point_for_a_beam);
     }
-    
+    ROS_INFO("alert_range_octagnal[0]=%f",range_memory[0]);
+    ROS_INFO("alert_range_octagnal[1]=%f",range_memory[1]);
+    ROS_INFO("alert_range_octagnal[2]=%f",range_memory[2]);
+    ROS_INFO("alert_range_octagnal[3]=%f",range_memory[3]);
+    ROS_INFO("alert_range_octagnal[4]=%f",range_memory[4]);
+    ROS_INFO("alert_range_octagnal[5]=%f",range_memory[5]);
+    ROS_INFO("alert_range_octagnal[6]=%f",range_memory[6]);
+    ROS_INFO("alert_range_octagnal[7]=%f",range_memory[7]);
+
     lidar_2020::alert_range ran_ale;
     ran_ale.header = msg->header;
     ran_ale.num = BEAM_NUM;
-    ran_ale.alert = {0};
     for(int i=0;i<BEAM_NUM;i++){
         ran_ale.ranging_value.push_back(range_memory[i]);
         if(range_memory[i]<alert_range_octagnal[i])
